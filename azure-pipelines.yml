@@ -11,7 +11,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  rid: 'linux-x64'
 
 steps:
     - task: UseDotNet@2
@@ -29,21 +28,21 @@ steps:
       displayName: 'dotnet build $(buildConfiguration)'
       inputs:
         command: 'build'
-        arguments: '-r $(rid) --configuration $(buildConfiguration) /p:SourceRevisionId=$(Build.SourceVersion)'
+        arguments: '--configuration $(buildConfiguration) /p:SourceRevisionId=$(Build.SourceVersion)'
 
     - task: DotNetCoreCLI@2
       displayName: "Test"
       inputs:
         command: test
         projects: '**/*tests/*.csproj'
-        arguments: '--runtime $(rid) --configuration $(buildConfiguration)'
+        arguments: '--configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
       displayName: "Publish"
       inputs:
         command: 'publish'
         publishWebProjects: true
-        arguments: '-r $(rid) --no-build --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        arguments: '--no-build --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: true
 
     - task: PublishBuildArtifacts@1
@@ -51,3 +50,4 @@ steps:
       inputs:
         pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
         artifactName: 'hanselminutes'
+
