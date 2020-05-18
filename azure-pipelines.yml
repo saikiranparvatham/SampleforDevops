@@ -20,11 +20,6 @@ steps:
   inputs:
     sourceFolder: $(Build.SourcesDirectory)
     targetFolder: $(Build.ArtifactStagingDirectory)
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'SampleDotnet-Drop'
-    publishLocation: 'Container'
     
 - task: DotNetCoreCLI@2
   inputs:
